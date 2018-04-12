@@ -7,12 +7,14 @@ import javax.swing.JOptionPane;
 public class EnviarMensagem extends Thread{
 
 	private List<Socket> clientes;
-	private String texto;
+	private String nick;
+	private String msgs;
 	
-	public EnviarMensagem(List<Socket> clientes,String texto)
+	public EnviarMensagem(List<Socket> clientes,String nick, String msgs)
 	{
 		this.clientes = clientes;
-		this.texto = texto;
+		this.nick = nick;
+		this.msgs = msgs;
 	}
 	
 	public void run()
@@ -27,9 +29,11 @@ public class EnviarMensagem extends Thread{
 			for(Socket cliente : clientes)
 			{
 				DataOutputStream dOut = new DataOutputStream(cliente.getOutputStream());
-				dOut.writeUTF(texto);
+				dOut.writeUTF(nick);
 				dOut.flush();
-				System.out.println("To Mandando: "+texto);
+				dOut.writeUTF(msgs);
+				dOut.flush();
+				System.out.println("To Mandando: "+nick+": "+msgs);
 			}
 			
 		}

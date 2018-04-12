@@ -8,7 +8,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 
-import Lista.ListaLigada;
 
 public class GerenciadordeClientes extends Thread {
 	

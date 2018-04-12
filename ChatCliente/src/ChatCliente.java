@@ -14,6 +14,8 @@ import javax.swing.border.EmptyBorder;
 
 import javax.swing.JTextPane;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import javax.swing.UIManager;
 import java.awt.Color;
 import javax.swing.JButton;
@@ -30,7 +32,7 @@ public class ChatCliente extends JFrame {
 	private Socket cliente;
 	private DataOutputStream dOut;
 	private JTextPane TxTexto;
-	private String nick;
+	public static String nick;
 	
 
 	/**
@@ -40,7 +42,7 @@ public class ChatCliente extends JFrame {
 	{
 		this.ipdoServidor = ip;
 		this.portadoServidor = Integer.parseInt(porta);
-		this.nick = nick;
+		ChatCliente.nick = nick;
 		
 		setResizable(false);
 		setTitle("Chat");
@@ -112,7 +114,9 @@ public class ChatCliente extends JFrame {
 			//Mandando a String
 			dOut = new DataOutputStream(cliente.getOutputStream());
 			String aux = TxTexto.getText();
-			dOut.writeUTF(nick+": "+aux);
+			//dOut.writeUTF(nick+": "+aux);
+			dOut.writeUTF(nick);
+			dOut.writeUTF(aux);
 			dOut.flush();
 			//dOut.close();
 				

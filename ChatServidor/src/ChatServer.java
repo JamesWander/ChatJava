@@ -11,8 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Lista.ListaLigada;
-
 import javax.swing.JTextPane;
 
 public class ChatServer extends JFrame {

@@ -6,7 +6,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 
-import Lista.ListaLigada;
 
 public class ReceberMensagem extends Thread{
 	
@@ -35,17 +34,18 @@ public class ReceberMensagem extends Thread{
 			{
 				//Lendo o texto recebido do cliente
 				DataInputStream dIn = new DataInputStream(cliente.getInputStream());
-				String aux = dIn.readUTF();
+				String nick = dIn.readUTF();
+				String msgs = dIn.readUTF(); 
 
 				//Colocando o texto no JTextPane
-				chat.setText(chat.getText()+"\n"+cliente.getInetAddress().getHostAddress()+": "+aux);
+				chat.setText(chat.getText()+"\n"+cliente.getInetAddress().getHostAddress()+": "+nick+": "+msgs);
 				
 				//aux = cliente.getInetAddress().getHostAddress()+": "+aux;
 				
 				
 				
 				//Mandando a mensagem recebida para todos os clientes
-				enviar = new EnviarMensagem(clientes,aux);
+				enviar = new EnviarMensagem(clientes,nick,msgs);
 				
 				enviar.start();
 			}
