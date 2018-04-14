@@ -33,7 +33,7 @@ public class EnviarMensagem extends Thread{
 				dOut.flush();
 				dOut.writeUTF(msgs);
 				dOut.flush();
-				System.out.println("To Mandando: "+nick+": "+msgs);
+				
 			}
 			
 		}

@@ -1,5 +1,4 @@
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.List;
 
@@ -39,11 +38,7 @@ public class ReceberMensagem extends Thread{
 
 				//Colocando o texto no JTextPane
 				chat.setText(chat.getText()+"\n"+cliente.getInetAddress().getHostAddress()+": "+nick+": "+msgs);
-				
-				//aux = cliente.getInetAddress().getHostAddress()+": "+aux;
-				
-				
-				
+							
 				//Mandando a mensagem recebida para todos os clientes
 				enviar = new EnviarMensagem(clientes,nick,msgs);
 				
@@ -53,6 +48,7 @@ public class ReceberMensagem extends Thread{
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(null, "ReceberdoServer: " +e);
+			clientes.remove(cliente);
 		}
 	}
 

@@ -1,6 +1,4 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -8,16 +6,23 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
+@SuppressWarnings("serial")
 public class Menu extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField TxServerIp;
 	private JTextField TxServerPort;
 	private JTextField TxNick;
+	public static ChatCliente frame;
 
 	/**
 	 * Launch the application.
@@ -34,6 +39,8 @@ public class Menu extends JFrame {
 			}
 		});
 	}
+	
+	
 
 	/**
 	 * Create the frame.
@@ -80,6 +87,12 @@ public class Menu extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				try
+				{
+					salvarDados();
+				}
+				catch(Exception e2){}
 				conectarServidor(TxServerIp.getText(),TxServerPort.getText(),TxNick.getText());
 				
 			}
@@ -95,13 +108,47 @@ public class Menu extends JFrame {
 		lblNickname.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNickname.setBounds(50, 91, 103, 17);
 		contentPane.add(lblNickname);
+		
+		carregarDados();
+		
 	}
 	
 	public void conectarServidor(String ip, String porta, String nick)
 	{
-		ChatCliente frame = new ChatCliente(ip,porta,nick);
+		frame = new ChatCliente(ip,porta,nick);
 		this.setVisible(false);
 		frame.setVisible(true);
 		
+	}
+	
+	public void salvarDados() throws IOException
+	{
+		String fileName = "Configs.txt";
+		BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+		
+		writer.write(TxServerPort.getText());
+		writer.newLine();
+		
+		writer.write(TxNick.getText());
+		writer.newLine();
+		
+		writer.write(TxServerIp.getText());
+		writer.newLine();
+		
+		writer.close();
+	}
+	
+	public void carregarDados()
+	{
+		try
+		{
+			String fileName = "Configs.txt";
+			BufferedReader ler = new BufferedReader(new FileReader(fileName));
+			TxServerPort.setText(ler.readLine());
+			TxNick.setText(ler.readLine());
+			TxServerIp.setText(ler.readLine());
+			ler.close();
+		}
+		catch(Exception e){}
 	}
 }

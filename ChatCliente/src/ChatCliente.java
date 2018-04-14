@@ -1,28 +1,23 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.io.DataOutputStream;
-import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-
 import javax.swing.JTextPane;
 import javax.swing.border.TitledBorder;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
+import javax.swing.text.DefaultCaret;
 import javax.swing.UIManager;
 import java.awt.Color;
 import javax.swing.JButton;
-import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
+
+@SuppressWarnings("serial")
 public class ChatCliente extends JFrame {
 
 	private JPanel contentPane;
@@ -40,6 +35,9 @@ public class ChatCliente extends JFrame {
 	 */
 	public ChatCliente(String ip, String porta, String nick)
 	{
+	
+		
+		
 		this.ipdoServidor = ip;
 		this.portadoServidor = Integer.parseInt(porta);
 		ChatCliente.nick = nick;
@@ -53,16 +51,21 @@ public class ChatCliente extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(2, 4, 441, 266);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
 		textPane = new JTextPane();
 		textPane.setEditable(false);
 		textPane.setBounds(3, 3, 433, 260);
-		panel.add(textPane);
+		DefaultCaret caret = (DefaultCaret)textPane.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		//textPane.setContentType("text/html");
+		//panel.add(textPane);
+		
+		JScrollPane panel = new JScrollPane(textPane);
+		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(2, 4, 441, 266);
+		contentPane.add(panel);
+		//panel.setLayout(null);
+		
+		
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -71,6 +74,24 @@ public class ChatCliente extends JFrame {
 		panel_1.setLayout(null);
 		
 		TxTexto = new JTextPane();
+			
+		TxTexto.addKeyListener(new KeyAdapter() {
+			
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER && e.isShiftDown())
+				{
+					e.consume();
+					TxTexto.setText(TxTexto.getText()+"\n");
+				}
+				else if(e.getKeyCode() == KeyEvent.VK_ENTER && !e.isShiftDown())
+				{
+					e.consume();
+					enviarMensagem();
+					TxTexto.setCaretPosition(0);
+				}
+			}
+		});
 		TxTexto.setBounds(4, 3, 433, 97);
 		panel_1.add(TxTexto);
 		
@@ -89,6 +110,8 @@ public class ChatCliente extends JFrame {
 		contentPane.add(BtEnviar);
 		
 		conectarServidor();
+		
+		
 	}
 
 	private void conectarServidor()
@@ -111,16 +134,17 @@ public class ChatCliente extends JFrame {
 	{
 		try
 		{
+			
+			
 			//Mandando a String
 			dOut = new DataOutputStream(cliente.getOutputStream());
 			String aux = TxTexto.getText();
-			//dOut.writeUTF(nick+": "+aux);
 			dOut.writeUTF(nick);
 			dOut.writeUTF(aux);
 			dOut.flush();
-			//dOut.close();
-				
-		
+			TxTexto.setText("");
+			TxTexto.setCaretPosition(0);
+			
 		}
 		catch(Exception e)
 		{

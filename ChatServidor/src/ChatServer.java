@@ -1,5 +1,3 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import javax.swing.JTextPane;
 
+@SuppressWarnings("serial")
 public class ChatServer extends JFrame {
 
 	private JPanel contentPane;
