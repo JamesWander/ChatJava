@@ -18,8 +18,8 @@ public class ChatServer extends JFrame {
 	private String ipdoServidor;
 	private int portadoServidor;
 	private JTextPane textPane;
-	private List<Socket> listadeClientes = new ArrayList<Socket>();
-	
+	//private List<Socket> listadeClientes = new ArrayList<Socket>();
+	private List<Usuario> listadeClientes = new ArrayList<Usuario>();
 
 	/**
 	 * Create the frame.

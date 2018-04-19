@@ -8,12 +8,13 @@ import javax.swing.JTextPane;
 
 public class ReceberMensagem extends Thread{
 	
-	private Socket 		cliente;
-	private JTextPane 	chat;
-	private List<Socket> clientes;
+	private Usuario cliente;
+	private JTextPane chat;
+	//private List<Socket> clientes;
+	private List<Usuario> clientes;
 	private EnviarMensagem enviar;
 	
-	public ReceberMensagem(Socket cliente,JTextPane chat,List<Socket> clientes)
+	public ReceberMensagem(Usuario cliente,JTextPane chat,List<Usuario> clientes)
 	{
 		this.cliente = cliente;
 		this.chat 	 = chat;  
@@ -32,17 +33,18 @@ public class ReceberMensagem extends Thread{
 			while(true)
 			{
 				//Lendo o texto recebido do cliente
-				DataInputStream dIn = new DataInputStream(cliente.getInputStream());
-				String nick = dIn.readUTF();
+				DataInputStream dIn = new DataInputStream(cliente.getSocket().getInputStream());
+				//String nick = dIn.readUTF();
 				String msgs = dIn.readUTF(); 
 
 				//Colocando o texto no JTextPane
-				chat.setText(chat.getText()+"\n"+cliente.getInetAddress().getHostAddress()+": "+nick+": "+msgs);
+				chat.setText(chat.getText()+"\n"+cliente.getIp()+": "+cliente.getNick()+": "+msgs);
 							
 				//Mandando a mensagem recebida para todos os clientes
-				enviar = new EnviarMensagem(clientes,nick,msgs);
-				
+				enviar = new EnviarMensagem(clientes,cliente.getNick(),msgs);
 				enviar.start();
+				
+	
 			}
 		}
 		catch(Exception e)
