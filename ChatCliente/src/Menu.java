@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -11,9 +12,13 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JFormattedTextField;
 
 @SuppressWarnings("serial")
 public class Menu extends JFrame {
@@ -100,6 +105,16 @@ public class Menu extends JFrame {
 		contentPane.add(btnIniciarServidor);
 		
 		TxNick = new JTextField();
+		TxNick.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if (TxNick.getText().length() >= 19 )
+				{
+			            e.consume(); 
+				}
+			}
+		});
 		TxNick.setColumns(10);
 		TxNick.setBounds(167, 91, 131, 20);
 		contentPane.add(TxNick);
@@ -108,7 +123,7 @@ public class Menu extends JFrame {
 		lblNickname.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNickname.setBounds(50, 91, 103, 17);
 		contentPane.add(lblNickname);
-		
+				
 		carregarDados();
 		
 	}
@@ -124,7 +139,7 @@ public class Menu extends JFrame {
 	public void salvarDados() throws IOException
 	{
 		String fileName = "Configs.txt";
-		BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+		BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,false));
 		
 		writer.write(TxServerPort.getText());
 		writer.newLine();

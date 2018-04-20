@@ -42,7 +42,7 @@ public class EnviarMensagem extends Thread{
 		}
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(null, "EnvirMensagem do server: " +e);
+			e.printStackTrace();
 		}
 	}
 	
@@ -71,7 +71,7 @@ public class EnviarMensagem extends Thread{
 		}
 		catch(Exception e)
 		{		
-			JOptionPane.showMessageDialog(null, e);	
+			e.printStackTrace();	
 		}
 			
 	}

@@ -49,7 +49,7 @@ public class ReceberMensagem extends Thread{
 		}
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(null, "ReceberdoServer: " +e);
+			e.printStackTrace();
 			clientes.remove(cliente);
 		}
 	}

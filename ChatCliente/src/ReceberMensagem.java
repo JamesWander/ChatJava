@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.io.DataInputStream;
 import java.net.Socket;
+
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
@@ -20,20 +22,21 @@ public class ReceberMensagem extends Thread {
 	private DataInputStream dIn;
 	private JTextPane TxUser;
 	private Emojis emojisss = new Emojis();
+	private String nick;
 	
-	public ReceberMensagem(Socket cliente, JTextPane chat,JTextPane user)
+	public ReceberMensagem(Socket cliente, JTextPane chat,JTextPane user, String nick)
 	{
 		this.cliente = cliente;
 		this.chat = chat;
-		this.TxUser = user;
-
-		
+		this.TxUser = user;	
+		this.nick = nick;
 	}
 	
 	public void run()
 	{
 		emojiListener();
 		receberMensagem();		
+		this.chat.setContentType("text/html");
 	}
 
 	private void receberMensagem()
@@ -46,31 +49,45 @@ public class ReceberMensagem extends Thread {
 					dIn = new DataInputStream(cliente.getInputStream());	
 					
 					int op = dIn.readByte();
-					
 					if(op == 0)
 					{
+						
 						StyledDocument doc = chat.getStyledDocument();
 						
 						String nick = dIn.readUTF();
 						String msgs = dIn.readUTF();
+						Style style = chat.addStyle("nick", null);
 						
-						
-						if(ChatCliente.nick.equals(nick))
+						System.out.println("porra");
+						if(this.nick.equals(nick))
 						{
-							Style style = chat.addStyle("nick",null);
+							style = chat.addStyle("nick",null);
+							System.out.println("1");
+							
 							StyleConstants.setForeground(style, new Color(0,153,51));
+							System.out.println("2");
+							
 							StyleConstants.setBold(style, true);
+							System.out.println("3");
+							
 							doc.insertString(doc.getLength(), "\n"+nick+": ", style);
+							System.out.println("4");
 						}
 						else
 						{	
-							Style style = chat.addStyle("nick",null);
+							style = chat.addStyle("nick",null);
 							StyleConstants.setForeground(style, Color.blue);
 							StyleConstants.setBold(style, true);
 							doc.insertString(doc.getLength(), "\n"+nick+": ", style);
+							System.out.println("4.2");
 						}
 						
-						doc.insertString(doc.getLength(), msgs, null);
+						
+						StyleConstants.setBold(style, false);
+						StyleConstants.setForeground(style, new Color(0,0,0));
+						doc.insertString(doc.getLength(), msgs, style);
+						
+						
 						
 						if(Menu.frame.getState() == JFrame.ICONIFIED)
 						{
@@ -86,14 +103,14 @@ public class ReceberMensagem extends Thread {
 						String nick = dIn.readUTF();
 						
 						Style style = TxUser.addStyle("nick",null);
-						StyleConstants.setForeground(style, Color.RED);
+						StyleConstants.setForeground(style, Color.blue);
 						StyleConstants.setBold(style, true);
 						doc.remove(0, doc.getLength());
 						doc.insertString(0,nick, style);
 							
 					}
+					
 				}
-			
 			
 		}
 		catch(Exception e)

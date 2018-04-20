@@ -8,7 +8,6 @@ public class Emojis {
 	public Map<String, ImageIcon> emojis = new HashMap<String, ImageIcon>();
 
 	
-	
 	public Emojis() {
 		
 		emojis.put("::em1::", new ImageIcon(getClass().getResource("/imagens/EM (1).png")));
@@ -32,7 +31,6 @@ public class Emojis {
 		emojis.put("::em19::", new ImageIcon(getClass().getResource("/imagens/EM (19).png")));
 		emojis.put("::em20::", new ImageIcon(getClass().getResource("/imagens/EM (20).png")));
 		emojis.put("::em21::", new ImageIcon(getClass().getResource("/imagens/EM (21).png")));
-		emojis.put("::em22::", new ImageIcon(getClass().getResource("/imagens/EM (22).png")));
 		emojis.put("::em23::", new ImageIcon(getClass().getResource("/imagens/EM (23).png")));
 		emojis.put("::em24::", new ImageIcon(getClass().getResource("/imagens/EM (24).png")));
 		emojis.put("::em25::", new ImageIcon(getClass().getResource("/imagens/EM (25).png")));
@@ -43,7 +41,5 @@ public class Emojis {
 
 	}
 	
-	
-	//put("::em1::", new ImageIcon(getClass().getResource("")));
 	
 }

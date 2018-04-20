@@ -60,7 +60,7 @@ public class ChatServer extends JFrame {
 		}
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(null, "ChatServer: " +e);
+			e.printStackTrace();
 		}
 		
 	}

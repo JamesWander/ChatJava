@@ -57,7 +57,7 @@ public class GerenciadordeClientes extends Thread {
 		}
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(null, "GerenciadorDeClientes do Server: " +e);
+			e.printStackTrace();
 		}
 	}
 
